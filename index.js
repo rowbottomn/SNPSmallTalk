@@ -7,6 +7,25 @@ let io = require('socket.io')(http);
 let users = [];
 let names = [];
 
+class user {
+
+  constructor(socket) {
+    this.socket = socket;
+    this.name = "";
+    this.room = "";
+    this.start_time = Date.now();
+  }
+
+  constructor(socket, time) {
+    this.socket = socket;
+    this.name = "";
+    this.room = "";
+    this.start_time = time;
+  }
+
+}
+
+
 app.get('/', function(req, res){
   //https://stackoverflow.com/questions/16333790/node-js-quick-file-server-static-files-over-http/29046869#29046869
   //res.sendFile(__dirname + '/script.js');
@@ -34,7 +53,8 @@ io.on('connection', function(socket){
     let i = users.indexOf(socket);
     names[i] = name;
     // Send message to all users.
-    io.emit('chat message', "ROBO: Welcome "+name+"!");
+    io.local.emit('chat message', "SNP: Welcome to small talk, "+name+"!");
+    //io.local.emit('chat message', "The rooms available are :"+socket.rooms.size()));
     console.log('got name for user'+i+' :'+name);
   });
 
